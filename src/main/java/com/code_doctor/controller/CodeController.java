@@ -21,10 +21,15 @@ public class CodeController {
     @Autowired
     private AIAnalysisService aiAnalysisService;
 
-    @PostMapping("/analyze")
-    public String analyzeCode(@RequestParam("image") MultipartFile imageFile) throws IOException {
+    @PostMapping("/analyzeImg")
+    public String analyzeCodeImg(@RequestParam("image") MultipartFile imageFile) throws IOException {
         BufferedImage image = ImageIO.read(imageFile.getInputStream());
         String code = ocrService.extractTextFromImage(image);
         return aiAnalysisService.analyzeCode(code);
+    }
+
+    @GetMapping("/analyzeTxt")
+    public String analyzeCode(@RequestParam("code") String code) {
+        return aiAnalysisService.analyzeCodeWithOllama(code);
     }
 }
